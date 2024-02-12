@@ -1,0 +1,93 @@
+
+<div *ngIf="!viewMode; else editable">
+  <div *ngIf="currentTutorial.id">
+    <h4>Tutorials </h4>
+    <div>
+      <label><strong>Title : </strong></label> {{ currentTutorial.title }}
+    </div>
+    <div>
+      <label><strong>Description : </strong></label>
+      {{ currentTutorial.description }}
+    </div>
+    <div>
+      <label><strong>Status : </strong></label>
+      {{ currentTutorial.published ? "Published" : "Pending" }}
+    </div>
+  </div>
+
+  <div *ngIf="!currentTutorial">
+    <br />
+    <p>Please click on a tutorial</p>
+  </div>
+</div>
+
+
+<ng-template #editable>
+  <div *ngIf="viewMode && currentTutorial.id" class="edit-form">
+    <h4>Tutorials</h4>
+    <form [formGroup]="tutorialForm" novalidate>
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input
+          type="text"
+          class="form-control"
+          id="title"
+          formControlName="title"
+          required
+          [(ngModel)]="currentTutorial.title"
+          name="title"
+        />
+        <div *ngIf="tutorialForm.get('title')?.invalid && (tutorialForm.get('title')?.dirty || tutorialForm.get('title')?.touched)">
+          <div *ngIf="tutorialForm.get('title')?.hasError('required')" class="message">Title is required.</div>
+          <div *ngIf="tutorialForm.get('title')?.hasError('minlength')" class="message">Title should be at least 3 characters long.</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input
+          type="text"
+          class="form-control"
+          id="description"
+          [(ngModel)]="currentTutorial.description"
+          name="description"
+          formControlName="description"
+          required
+
+        />
+        <div *ngIf="tutorialForm.get('description')!.invalid && (tutorialForm.get('description')!.dirty || tutorialForm.get('description')!.touched)">
+          <div *ngIf="tutorialForm.get('description')!.hasError('required')" class="message">Description is required.</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label><strong>Status:</strong></label>
+        {{ currentTutorial.published ? "Published" : "Pending" }}
+      </div>
+    </form>
+    <button
+      class="m-3 btn btn-danger"
+      *ngIf="currentTutorial.published"
+      (click)="updatePublished(false)"
+    >Unpublish</button>
+    <button
+      class="m-3 btn btn-danger"
+      *ngIf="!currentTutorial.published"
+      (click)="updatePublished(true)"
+    >Publish</button>
+    <button
+      class="m-3 btn btn-danger"
+      (click)="deleteTutorial()"
+    >Delete</button>
+    <button
+      type="submit"
+      class="m-3 btn btn-danger"
+      (click)="updateTutorial()"
+      [disabled]="!tutorialForm.valid"
+    >Update</button>
+    <p>{{ message }}</p>
+  </div>
+
+  <div *ngIf="!currentTutorial.id">
+    <br />
+    <p>Cannot access this Tutorial</p>
+  </div>
+</ng-template>

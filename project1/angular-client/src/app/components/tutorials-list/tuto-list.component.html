@@ -1,0 +1,56 @@
+<div class="list row">
+  <div class="col-md-8">
+    <div class="input-group mb-3">
+      <form [formGroup]="tutorialForm" (ngSubmit)="searchTitle()" novalidate>
+        <input
+        type="text"
+        class="form-control"
+        placeholder="Search by title"
+        [(ngModel)]="title"
+        formControlName="title"
+        required
+
+      />
+        <div *ngIf="tutorialForm.get('title')?.invalid && (tutorialForm.get('title')?.dirty || tutorialForm.get('title')?.touched)">
+          <div *ngIf="tutorialForm.get('title')?.hasError('required')" class="message">Title is required.</div>
+          <div *ngIf="tutorialForm.get('title')?.hasError('minlength')" class="message">Title should be at least 3 characters long.</div>
+        </div>
+    <div class="input-group-append">
+      <button
+        id="btn"
+        type="submit"
+        class="btn btn-outline-secondary"
+        [disabled]="!tutorialForm.valid"
+      >
+        Search
+      </button>
+    </div>
+      </form>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <h3>Tutorials list</h3>
+    <ul class="list-group">
+      <li
+        class="list-group-item"
+        *ngFor="let tutorial of tutorials;let i = index"
+        [class.active]="i == currentIndex"
+      >{{ tutorial.title }} </li>
+    </ul>
+
+    <style>
+
+      .list-group-item:hover {
+        background-color: #007bff;
+        color:#ffffff;
+      }
+    </style>
+    <button class="m-3 btn btn-danger" (click)="removeAllTutorials()" >Remove all</button>
+  </div>
+  <div class="col-md-6">
+    <app-tutorial-details
+      [viewMode]="true"
+      [currentTutorial]="currentTutorial"
+    ></app-tutorial-details>
+  </div>
+</div>

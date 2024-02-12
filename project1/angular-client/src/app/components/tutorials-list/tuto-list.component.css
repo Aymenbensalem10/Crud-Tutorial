@@ -1,0 +1,14 @@
+.list {
+  text-align: left;
+  max-width: 750px;
+  margin: auto;
+}
+#btn{
+  margin-left: 278px;
+  margin-top :1px;
+}
+.message{
+  color : red ;
+  font-family:Arial;
+  font-size:14px;
+}

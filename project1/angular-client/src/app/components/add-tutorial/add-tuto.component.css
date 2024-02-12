@@ -1,0 +1,10 @@
+.submit-form {
+  max-width: 400px;
+  margin: auto;
+}
+.message{
+  color : red;
+  margin-top : 5px;
+  font-family:Arial;
+  font-size:14px;
+}
